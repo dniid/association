@@ -4,10 +4,30 @@ services:
     build:
       context: .
       dockerfile: dev.Dockerfile
+    container_name: association_rails
+    restart: unless-stopped
     ports:
       - "3000:3000"
     volumes:
       - .:/rails
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: bash -c "rm -f tmp/pids/server.pid && bin/dev"
+    # command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    # command: tail -f /dev/null
+    depends_on:
+      - redis
     environment:
       RAILS_ENV: development
+
+  redis:
+    image: bitnami/redis:7.2
+    container_name: association_redis
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/bitnami/redis/data
+    environment:
+      ALLOW_EMPTY_PASSWORD: yes
+
+volumes:
+  redis_data:

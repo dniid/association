@@ -52,6 +52,11 @@ gem 'devise'
 gem "devise-i18n"
 gem "devise-bootstrap5"
 
+gem "rails_performance"
+gem "browser"
+gem "redis-namespace"
+gem "foreman"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
