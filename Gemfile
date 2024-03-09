@@ -51,9 +51,9 @@ gem "devise-i18n"
 gem "devise-bootstrap5"
 
 gem 'faker'
-
 gem 'rails_performance'
-
+gem 'browser'
+gem 'foreman'
 gem 'will_paginate', '~> 4.0'
 
 group :development, :test do
