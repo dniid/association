@@ -1,0 +1,23 @@
+<div class="d-flex justify-content-between">
+  <div class="d-flex gap-2">
+    <% if pagination.previous_page? %>
+      <%= link_to 'First', path + "?page=1" %>
+      <%= link_to '< Previous', path + "page=#{pagination.previous_page}" %>
+    <% else %>
+      <p>First</p>
+      <p>&#60; Previous</p>
+    <% end %>
+  </div>
+  <div>
+    <p><%= "Page #{pagination.page} of #{pagination.total_pages}" %></p>
+  </div>
+  <div class="d-flex gap-2">
+    <% if pagination.next_page? %>
+      <%= link_to 'Next >', path + "?page=#{pagination.next_page}" %>
+      <%= link_to 'Last', path + "?page=#{pagination.total_pages}" %>
+    <% else %>
+      <p>Next &#62;</p>
+      <p>Last </p>
+    <% end %>
+  </div>
+</div>
