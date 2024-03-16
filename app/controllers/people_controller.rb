@@ -1,14 +1,14 @@
 class PeopleController < ApplicationController
+  include PaginationConcern
+
   before_action :set_person, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
-
-  include PaginationConcern
 
   PEOPLE_PER_PAGE = 10
 
   # GET /people or /people.json
   def index
-    @active = params[:active] == 'true'
+    @active = params[:active] ? params[:active] == 'true' : true
     @pagination, @people = paginate(collection: Person.where(active: @active).includes(:user), params: page_params)
   end
 

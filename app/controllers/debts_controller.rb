@@ -1,7 +1,7 @@
 class DebtsController < ApplicationController
-  before_action :authenticate_user!
-
   include PaginationConcern
+
+  before_action :authenticate_user!
 
   DEBTS_PER_PAGE = 10
 
