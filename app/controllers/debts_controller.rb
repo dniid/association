@@ -1,9 +1,13 @@
 class DebtsController < ApplicationController
   before_action :authenticate_user!
 
+  include PaginationConcern
+
+  DEBTS_PER_PAGE = 10
+
   # GET /debts or /debts.json
   def index
-    @debts = Debt.all
+    @pagination, @debts = paginate(collection: Debt.includes(:person), params: page_params)
   end
 
   # GET /debts/new
@@ -42,5 +46,9 @@ class DebtsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def debt_params
       params.require(:debt).permit(:person_id, :amount, :observation)
+    end
+
+    def page_params
+      params.permit(:page).merge(per_page: DEBTS_PER_PAGE)
     end
 end

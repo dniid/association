@@ -40,4 +40,5 @@
       <% end %>
     </tbody>
   </table>
+  <%= render partial: 'shared/pagination', locals: { pagination: @pagination, path: debts_path } %>
 </div>
