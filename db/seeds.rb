@@ -1,17 +1,29 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+require 'faker'
 
+puts 'Destroying existing records...'
 User.destroy_all
+Debt.destroy_all
+Person.destroy_all
+puts 'Records successfully destroyed!'
 
-User.create email: 'admin@admin.com', password: '111111'
+puts 'Creating an admin user...'
+User.create(email: 'admin@admin.com', password: '111111')
+puts 'Admin created with credentials: admin@admin.com / 111111'
 
-puts "Usuário criado:"
-puts "login admin@admin.com"
-puts "111111"
+puts 'Creating fake data...'
+# FactoryBot.create_list(:user, 1000)
+50.times do |counter|
+    puts "User #{counter}"
+    FactoryBot.create(:user)
+end
+# FactoryBot.create_list(:person, 3000)
+3000.times do |counter|
+    puts "Person #{counter}"
+    FactoryBot.create(:person, user: User.all.sample)
+end
+# FactoryBot.create_list(:debt, 5000)
+5000.times do |counter|
+    puts "Debt #{counter}"
+    FactoryBot.create(:debt, person: Person.all.sample)
+end
+puts 'Fake data successfully created!'

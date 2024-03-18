@@ -1,21 +1,15 @@
 class PeopleController < ApplicationController
+  include PaginationConcern
+
   before_action :set_person, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
 
+  PEOPLE_PER_PAGE = 10
+
   # GET /people or /people.json
   def index
-    # TODO: ugly code
-    if !params[:active].nil?
-      if params[:active] == 'true'
-        @active = true
-      else
-        @active = false
-      end
-    else
-      @active = true
-    end
-
-    @people = Person.where(active: @active)
+    @active = params[:active] ? params[:active] == 'true' : true
+    @pagination, @people = paginate(collection: Person.where(active: @active).includes(:user), params: page_params)
   end
 
   # GET /people/search?q=a_name
@@ -93,5 +87,9 @@ class PeopleController < ApplicationController
     # Only allow a list of trusted parameters through.
     def person_params
       params.require(:person).permit(:name, :phone_number, :national_id, :active)
+    end
+
+    def page_params
+      params.permit(:page).merge(per_page: PEOPLE_PER_PAGE)
     end
 end
