@@ -27,8 +27,5 @@ COPY . .
 # Expose port 3000
 EXPOSE 3000
 
-RUN yarn install --frozen-lockfile
-
 # Start the server
-# CMD ["rails", "server", "-b", "0.0.0.0"]
-CMD ["tail", "-f", "dev/null"]
+CMD ["sh", "entrypoint.sh"]
