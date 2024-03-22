@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+ruby "3.2.1"
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.3"
 
@@ -53,6 +55,7 @@ gem "devise-bootstrap5"
 gem 'faker'
 gem 'rails_performance'
 gem 'browser'
+gem 'redis-namespace'
 gem 'foreman'
 gem 'will_paginate', '~> 4.0'
 
