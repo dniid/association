@@ -9,6 +9,13 @@ class PaginationViewModel
     @per_page = params[:per_page] || DEFAULT[:per_page]
   end
 
+  # TODO: This doesn't seem to belong here, move it to another place later
+  def append_query_param(url, param)
+    uri = URI.parse(url)
+
+    uri.query.present? ? "#{url}&#{param}" : "#{url}?#{param}"
+  end
+
   def offset
     return 0 if page == 1
 
