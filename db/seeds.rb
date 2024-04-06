@@ -3,6 +3,7 @@ require 'faker'
 puts 'Destroying existing records...'
 User.destroy_all
 Debt.destroy_all
+Payment.destroy_all
 Person.destroy_all
 puts 'Records successfully destroyed!'
 
@@ -25,5 +26,10 @@ end
 5000.times do |counter|
     puts "Debt #{counter}"
     FactoryBot.create(:debt, person: Person.all.sample)
+end
+# FactoryBot.create_list(:payment, 5000)
+5000.times do |counter|
+    puts "Payment #{counter}"
+    FactoryBot.create(:payment, person: Person.all.sample)
 end
 puts 'Fake data successfully created!'
