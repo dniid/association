@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   rails:
     build:
@@ -10,9 +9,10 @@ services:
       - 3000:3000
     volumes:
       - .:/rails
-    command: bash -c "rm -f tmp/pids/server.pid && bin/dev"
     depends_on:
       - redis
+    env_file:
+      - ./envs/redis.env
     environment:
       RAILS_ENV: development
 
