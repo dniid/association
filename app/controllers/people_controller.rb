@@ -9,7 +9,7 @@ class PeopleController < ApplicationController
   # GET /people or /people.json
   def index
     @active = params[:active] ? params[:active] == 'true' : true
-    @pagination, @people = paginate(collection: Person.where(active: @active).includes(:user, :debts), params: page_params)
+    @pagination, @people = paginate(collection: Person.where(active: @active).includes(:user), params: page_params)
   end
 
   # GET /people/search?q=a_name

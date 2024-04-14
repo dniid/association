@@ -8,8 +8,29 @@ class Person < ApplicationRecord
   validates :national_id, uniqueness: true
   validate :cpf_or_cnpj
 
+  before_destroy -> { Redis.cache.del("#{id}-balance") }
+
   def balance
-    payments.sum(:amount) - debts.sum(:amount)
+    # Return cached value if it exists
+    balance = Rails.cache.read("#{id}-balance")
+    return balance if balance
+
+    # Otherwise, calculate and return the balance
+    balance = payments.sum(:amount) - debts.sum(:amount)
+    Rails.cache.write("#{id}-balance", balance, expires_in: 1.day)
+    balance
+  end
+
+  def add_value_to_balance(value)
+    Rails.cache.delete("#{id}-balance")
+    new_balance = balance + value
+    Rails.cache.write("#{id}-balance", new_balance, expires_in: 1.day)
+  end
+
+  def remove_value_from_balance(value)
+    Rails.cache.delete("#{id}-balance")
+    new_balance = balance - value
+    Rails.cache.write("#{id}-balance", new_balance, expires_in: 1.day)
   end
 
   private
