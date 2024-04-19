@@ -11,25 +11,12 @@ class Person < ApplicationRecord
   before_destroy -> { Redis.cache.del("#{id}-balance") }
 
   def balance
-    # Return cached value if it exists
-    balance = Rails.cache.read("#{id}-balance")
-    return balance if balance
-
-    # Otherwise, calculate and return the balance
-    balance = payments.sum(:amount) - debts.sum(:amount)
-    Rails.cache.write("#{id}-balance", balance, expires_in: 1.day)
-    balance
+    balance = Rails.cache.fetch("#{id}-balance", payments.sum(:amount) - debts.sum(:amount), expires_in: 1.day)
   end
 
-  def add_value_to_balance(value)
+  def update_balance(value)
     Rails.cache.delete("#{id}-balance")
     new_balance = balance + value
-    Rails.cache.write("#{id}-balance", new_balance, expires_in: 1.day)
-  end
-
-  def remove_value_from_balance(value)
-    Rails.cache.delete("#{id}-balance")
-    new_balance = balance - value
     Rails.cache.write("#{id}-balance", new_balance, expires_in: 1.day)
   end
 

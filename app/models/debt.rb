@@ -3,6 +3,6 @@ class Debt < ApplicationRecord
 
   validates :amount, presence: true
 
-  after_save -> { person.remove_value_from_balance(amount) }
-  before_destroy -> { person.add_value_to_balance(amount) }
+  after_save -> { person.update_balance(-amount) }
+  before_destroy -> { person.update_balance(amount) }
 end

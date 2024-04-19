@@ -9,7 +9,7 @@ ENV DEBIAN_FRONTEND noninteractive
 WORKDIR /rails
 
 # Install dependencies
-RUN apt-get update -qq && \ 
+RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential curl git libvips node-gyp pkg-config python-is-python3 && \
     curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs && \

@@ -48,23 +48,24 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 gem "cpf_cnpj"
-gem 'devise'
+gem "devise"
 gem "devise-i18n"
 gem "devise-bootstrap5"
 
-gem 'faker'
-gem 'rails_performance'
-gem 'browser'
-gem 'redis-namespace'
-gem 'foreman'
-gem 'will_paginate', '~> 4.0'
+gem "faker"
+gem "rails_performance"
+gem "browser"
+gem "redis-namespace"
+gem "foreman"
+gem "will_paginate", "~> 4.0"
+gem "chartkick"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
-  gem 'rspec-rails'
-  gem 'factory_bot_rails'
-  gem 'shoulda-matchers'
+  gem "rspec-rails"
+  gem "factory_bot_rails"
+  gem "shoulda-matchers"
 end
 
 group :development do
@@ -82,5 +83,4 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-  gem "faker"
 end
