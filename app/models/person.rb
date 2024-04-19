@@ -11,7 +11,9 @@ class Person < ApplicationRecord
   before_destroy -> { Redis.cache.del("#{id}-balance") }
 
   def balance
-    balance = Rails.cache.fetch("#{id}-balance", payments.sum(:amount) - debts.sum(:amount), expires_in: 1.day)
+    balance = Rails.cache.fetch("#{id}-balance", expires_in: 1.day) do
+      payments.sum(:amount) - debts.sum(:amount)
+    end
   end
 
   def update_balance(value)
