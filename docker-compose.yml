@@ -15,7 +15,6 @@ services:
       - ./envs/redis.env
     environment:
       RAILS_ENV: development
-      BROWSER: $BROWSER
 
   redis:
     image: bitnami/redis:7.2
