@@ -1,3 +1,5 @@
+require 'csv'
+
 class ReportService
   attr_reader :current_user
 
@@ -7,9 +9,8 @@ class ReportService
   end
 
   def generate_csv
-    # Customize attributes here
-    people_attributes = %w{name phone_number national_id active created_at updated_at}
-    people = Person.all
+    attributes = %w{name balance}
+    people = Person.order(:name).all
 
     CSV.generate(headers: true) do |csv|
       csv << attributes
