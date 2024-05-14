@@ -2,7 +2,6 @@ services:
   rails:
     build:
       context: .
-      dockerfile: dev.Dockerfile
     container_name: association_rails
     restart: unless-stopped
     ports:
@@ -11,10 +10,15 @@ services:
       - .:/rails
     depends_on:
       - redis
-    env_file:
-      - ./envs/redis.env
-    environment:
-      RAILS_ENV: development
+      - sidekiq
+
+  sidekiq:
+    build:
+      context: .
+    container_name: association_sidekiq
+    restart: unless-stopped
+    depends_on:
+      - redis
 
   redis:
     image: bitnami/redis:7.2
@@ -24,8 +28,6 @@ services:
       - 6379:6379
     volumes:
       - redis_data:/bitnami/redis/data
-    environment:
-      ALLOW_EMPTY_PASSWORD: yes
 
 volumes:
   redis_data:

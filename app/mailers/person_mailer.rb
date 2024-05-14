@@ -1,7 +1,7 @@
 class PersonMailer < ApplicationMailer
 
-  def balance_report(user)
-    @user = user
+  def balance_report(user_id)
+    @user = User.find(user_id)
 
     report_service = ReportService.new(@user)
     attachments['saldos.csv'] = {

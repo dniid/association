@@ -1,0 +1,23 @@
+services:
+  rails:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    env_file:
+      - ./envs/redis.env
+    environment:
+      RAILS_ENV: development
+
+  sidekiq:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    env_file:
+      - ./envs/redis.env
+    environment:
+      RAILS_ENV: development
+
+  redis:
+    environment:
+      ALLOW_EMPTY_PASSWORD: yes
