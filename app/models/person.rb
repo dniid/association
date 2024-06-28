@@ -8,7 +8,7 @@ class Person < ApplicationRecord
   validates :national_id, uniqueness: true
   validate :cpf_or_cnpj
 
-  before_destroy -> { Redis.cache.del("#{id}-balance") }
+  before_destroy -> { Rails.cache.delete("#{id}-balance") }
 
   def balance
     Rails.cache.fetch("#{id}-balance", expires_in: 1.day) do

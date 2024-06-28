@@ -61,7 +61,7 @@ class DashboardService
         .left_joins(:payments, :debts)
         .where("people.active = true")
         .group("people.id")
-        .having("balance > 0")
+        .having("(COALESCE(SUM(payments.amount), 0) - COALESCE(SUM(debts.amount), 0)) > 0")
         .order("balance")
         .last
     end
@@ -74,9 +74,14 @@ class DashboardService
         .left_joins(:payments, :debts)
         .where("people.active = true")
         .group("people.id")
-        .having("balance > 0")
+        .having("(COALESCE(SUM(payments.amount), 0) - COALESCE(SUM(debts.amount), 0)) > 0")
         .order("balance")
         .first
     end
   end
+
+  def recent_big_debts
+    Debt.where("amount > 100000").includes(:person).order(amount: :desc).limit(10)
+  end
+
 end

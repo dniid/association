@@ -4,9 +4,11 @@ services:
       context: .
       dockerfile: dev.Dockerfile
     env_file:
+      - ./envs/postgres.env
       - ./envs/redis.env
     environment:
       RAILS_ENV: development
+      DATABASE_URL: postgresql://association:4$$0C14T10N@postgres
 
   sidekiq:
     build:
@@ -14,9 +16,15 @@ services:
       dockerfile: dev.Dockerfile
     command: bundle exec sidekiq -C config/sidekiq.yml
     env_file:
+      - ./envs/postgres.env
       - ./envs/redis.env
     environment:
       RAILS_ENV: development
+      DATABASE_URL: postgresql://association:4$$0C14T10N@postgres
+
+  postgres:
+    env_file:
+      - ./envs/postgres.env
 
   redis:
     environment:

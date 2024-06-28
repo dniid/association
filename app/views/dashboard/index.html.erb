@@ -14,7 +14,7 @@
             <td class="text-end"><%= @dashboard_service.total_debts %></td>
           </tr>
           <tr>
-            <td>Saldo</td>
+            <td>Total de saldos</td>
             <td class="text-end"><%= @dashboard_service.total_balance %></td>
           </tr>
         </table>
@@ -70,7 +70,7 @@
       <div class="card w-100 h-100 mw-100 mh-100">
         <div class="card-body">
           <h5 class="card-title">Últimos débitos</h5>
-          <%= line_chart @dashboard_service.last_debts, width: "55rem", height: "20rem" %>
+          <%= line_chart @dashboard_service.last_debts, height: "20rem" %>
         </div>
       </div>
     </div>
@@ -79,9 +79,39 @@
       <div class="card w-100 h-100 mw-100 mh-100">
         <div class="card-body">
           <h5 class="card-title">Últimos pagamentos</h5>
-          <%= line_chart @dashboard_service.last_payments, width: "55rem", height: "20rem" %>
+          <%= line_chart @dashboard_service.last_payments, height: "20rem" %>
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="row mt-2 mw-100">
+    <div class="col-6">
+      <div class="card w-100 h-100 mw-100 mh-100">
+        <div class="card-body">
+          <h5 class="card-title">Últimos 10 débitos lançados com valor maior do que 100 mil</h5>
+          <ul>
+            <% @dashboard_service.recent_big_debts.each do |debt| %>
+              <li><%= debt.person.name %>: <%= debt.amount %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <%
+=begin%>
+ <div class="col-6">
+      <div class="card w-100 h-100 mw-100 mh-100">
+        <div class="card-body">
+          <h5 class="card-title">Últimos 10 pagamentos lançados com valor maior do que 100 mil</h5>
+          <ul>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+<%
+=end%>
   </div>
 </div>

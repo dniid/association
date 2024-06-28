@@ -1,35 +1,48 @@
 require 'faker'
 
-puts 'Destroying existing records...'
-User.destroy_all
-Debt.destroy_all
-Payment.destroy_all
-Person.destroy_all
-puts 'Records successfully destroyed!'
-
 puts 'Creating an admin user...'
 User.create(email: 'admin@admin.com', password: '111111')
 puts 'Admin created with credentials: admin@admin.com / 111111'
 
 puts 'Creating fake data...'
-# FactoryBot.create_list(:user, 1000)
+users = []
 50.times do |counter|
-    puts "User #{counter}"
-    FactoryBot.create(:user)
+    users << { email: Faker::Internet.email, encrypted_password: Faker::Internet.password }
 end
-# FactoryBot.create_list(:person, 3000)
-3000.times do |counter|
-    puts "Person #{counter}"
-    FactoryBot.create(:person, user: User.all.sample)
+User.insert_all users
+puts 'Users generated!'
+persons = []
+100_000.times do |counter|
+    persons << {
+        name: Faker::Name.name,
+        phone_number: Faker::PhoneNumber.phone_number,
+        national_id: CPF.generate,
+        active: [true, false].sample,
+        user_id: User.pluck(:id).sample,
+    }
 end
-# FactoryBot.create_list(:debt, 5000)
-5000.times do |counter|
-    puts "Debt #{counter}"
-    FactoryBot.create(:debt, person: Person.all.sample)
+Person.insert_all persons
+puts 'Persons generated!'
+random_people = Person.pluck(:id)
+debts = []
+5_000.times do |counter|
+    debts << {
+        person_id: random_people.sample,
+        amount: Faker::Number.between(from: 1, to: 200_000),
+        observation: Faker::Lorem.paragraph,
+    }
 end
-# FactoryBot.create_list(:payment, 5000)
-5000.times do |counter|
-    puts "Payment #{counter}"
-    FactoryBot.create(:payment, person: Person.all.sample)
+Debt.insert_all debts
+puts 'Debts generated!'
+payments = []
+5_000.times do |counter|
+    payments << {
+        person_id: random_people.sample,
+        amount: Faker::Number.between(from: 1, to: 200),
+        paid_at: Faker::Date.between(from: 3.months.ago, to: 3.months.since),
+    }
 end
+Payment.insert_all payments
+puts 'Payments generated!'
+
 puts 'Fake data successfully created!'
