@@ -65,6 +65,7 @@ gem "redis-namespace"
 gem "foreman"
 gem "will_paginate", "~> 4.0"
 gem "chartkick"
+gem "audited", "~> 5.6"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -93,5 +94,3 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
-
-gem "audited", "~> 5.6"

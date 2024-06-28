@@ -28,6 +28,7 @@ class PeopleController < ApplicationController
 
   # GET /people/1 or /people/1.json
   def show
+    @pagination, @audits = paginate(collection: @person.audits.includes(:user), params: page_params)
   end
 
   # GET /people/new
